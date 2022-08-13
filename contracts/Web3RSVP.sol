@@ -2,6 +2,25 @@
 pragma solidity ^0.8.9;
 
 contract Web3RSVP {
+    // Exposes data about the new event like the owner, max capacity, event owner, deposit amount, etc.
+    event NewEventCreated(
+        bytes32 eventID,
+        address creatorAddress,
+        uint256 eventTimestamp,
+        uint256 maxCapacity,
+        uint256 deposit,
+        string eventDataCID
+    );
+
+    // Exposes data about the user who RSVP'd and the event they RSVP'd to
+    event NewRSVP(bytes32 eventID, address attendeeAddress);
+
+    // Exposes data about the user who was confirmed and the event that they were confirmed for
+    event ConfirmedAttendee(bytes32 eventID, address attendeeAddress);
+
+    // Exposes data about unclaimed deposits being sent to the event organizer
+    event DepositsPaidOut(bytes32 eventID);
+
     struct CreateEvent {
         bytes32 eventId;
         string eventDataCID;
@@ -51,6 +70,15 @@ contract Web3RSVP {
             claimedRSVPs,
             false
         );
+
+        emit NewEventCreated(
+            eventId,
+            msg.sender,
+            eventTimestamp,
+            maxCapacity,
+            deposit,
+            eventDataCID
+        );
     }
 
     function createNewRSVP(
@@ -86,6 +114,8 @@ contract Web3RSVP {
         // Add msg.sender to array of confirmed RSVPs
         // and declare address as payable which means that it can receive eth from this contract
         myEvent.confirmedRSVPs.push(payable(msg.sender));
+
+        emit NewRSVP(eventId, msg.sender);
     }
 
     function confirmAttendee(
@@ -134,6 +164,8 @@ contract Web3RSVP {
         }
 
         require(sent, "Failed to send Ether");
+
+        emit ConfirmedAttendee(eventId, attendee);
     }
 
     function confirmAllAttendees(
@@ -196,5 +228,7 @@ contract Web3RSVP {
         }
 
         require(sent, "Failed to send Ether");
+
+        emit DepositsPaidOut(eventId);
     }
 }
