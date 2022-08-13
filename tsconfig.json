@@ -5,6 +5,11 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "baseUrl": ".", // This must be specified if "paths" is.
+    "paths": { "~/*": ["scripts/*"] }
+  },
+  "exclude": ["node_modules"],
+  "include": ["./scripts"],
+  "files": ["./hardhat.config.ts"]
 }
