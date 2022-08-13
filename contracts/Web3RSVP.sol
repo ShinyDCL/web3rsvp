@@ -93,7 +93,7 @@ contract Web3RSVP {
 
         // Ensure that the event hasn’t already started based on the timestamp of the event - people shouldn’t be able to RSVP after the event has started
         require(
-            myEvent.eventTimestamp < block.timestamp,
+            myEvent.eventTimestamp > block.timestamp,
             "EVENT HAS ALREADY STARTED"
         );
 
