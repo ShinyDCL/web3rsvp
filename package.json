@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "script": "npx ts-node scripts/run.ts"
+    "script": " npx hardhat compile && npx ts-node scripts/run.ts",
+    "deploy": "npx hardhat run scripts/deploy.ts --network mumbai"
   },
   "author": "ShinyDCL",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "dotenv": "^16.0.1",
     "tsconfig-paths": "^4.1.0"
   }
 }
